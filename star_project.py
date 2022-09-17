@@ -1,5 +1,5 @@
 #star project
 
 def inipro():
-    n = 2
-    return n
+    suma = 2 + 2
+    return suma
