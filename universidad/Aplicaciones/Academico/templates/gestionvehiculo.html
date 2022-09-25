@@ -62,7 +62,7 @@
                         <td>{{ c.placa }}</td>
                         <td>{{ c.capacidad_de_pasajeros }}</td>
                         <td>{{ c.cilindraje }}</td>
-                        <td>{{ c.fecha_SOAT }}</td>
+                        <td>{{ c.fecha_SOAT |date:'d/m/Y'}}</td>
                         <td>{{ c.propietario }}</td>
                         <td>{%if c.estado == 0 %} Deshabilitado
                             {%elif c.estado == 1 %} Habilitado
