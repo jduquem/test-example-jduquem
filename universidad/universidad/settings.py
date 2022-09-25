@@ -76,8 +76,8 @@ WSGI_APPLICATION = 'universidad.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'universidad.db',
+        'ENGINE': 'djongo',
+        'NAME': 'TestArus',
     }
 }
 

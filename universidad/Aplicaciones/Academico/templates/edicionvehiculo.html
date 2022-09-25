@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de vehiculo{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edición de vehiculo</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editarvehiculo/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtplaca" name="txtplaca" value="{{vehiculo.placa}}" class="form-control" placeholder="placa"
+                            minlength="6" maxlength="6" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtcapacidad_de_pasajeros" name="txtcapacidad_de_pasajeros" value="{{vehiculo.capacidad_de_pasajeros}}" class="form-control" placeholder="capacidad_de_pasajeros"
+                            maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numcilindraje" name="numcilindraje" value="{{vehiculo.cilindraje}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" id="numfecha_SOAT" name="numfecha_SOAT" value="{{vehiculo.fecha_SOAT}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numpropietario" name="numpropietario" value="{{vehiculo.propietario}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numestado" name="numestado" value="{{vehiculo.estado}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

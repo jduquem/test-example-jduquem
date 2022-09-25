@@ -1,0 +1,80 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de vehiculo{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+        <h2>Gestion de vehiculo</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/registrarvehiculo/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtplaca"  name="txtplaca" class="form-control" placeholder="placa" minlength="6" maxlength="6" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtcapacidad_de_pasajeros"  name="txtcapacidad_de_pasajeros" class="form-control" placeholder="capacidad_de_pasajeros" minlength="1" maxlength="15   " autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numcilindraje"  name="numcilindraje" class="form-control"  min="1" max="9" placeholder="Cilindraje" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <LAbel>fecha SOAT</LAbel>
+                        <input type="date" id="numfecha_SOAT"  name="numfecha_SOAT" class="form-control"  placeholder="Fecha de soat" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numpropietario"  name="numpropietario" class="form-control"  min="1" max="9" placeholder="Propietario" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="numestado" id="numestado" class="form-control" required>
+                            <option value="">Selecciones una opcion del estado</option>
+                            <option value="0">Deshabilitado</option>
+                            <option value="1">Habilitado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        <h1>Listado de vehiculos</h1>
+        <div class="table-responsive py-4">
+            <table class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>placa</th>
+                        <th>capacidad_de_pasajeros</th>
+                        <th>cilindraje</th>
+                        <th>fecha_SOAT</th>
+                        <th>propietario</th>
+                        <th>estado</th>
+                        <th colspan="">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in queryset %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ c.placa }}</td>
+                        <td>{{ c.capacidad_de_pasajeros }}</td>
+                        <td>{{ c.cilindraje }}</td>
+                        <td>{{ c.fecha_SOAT }}</td>
+                        <td>{{ c.propietario }}</td>
+                        <td>{%if c.estado == 0 %} Deshabilitado
+                            {%elif c.estado == 1 %} Habilitado
+                            {%endif%}</td>
+                        <td><a href="edicionvehiculo/{{c.placa}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="eliminarvehiculo/{{c.placa}}" class="btn btn-danger">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
