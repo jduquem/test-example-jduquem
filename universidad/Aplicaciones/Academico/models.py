@@ -27,8 +27,10 @@ class vehiculo(models.Model):
     capacidad_de_pasajeros = models.PositiveSmallIntegerField(verbose_name = 'Capacidad de pasajeros', null = False, blank = False)
     cilindraje =  models.CharField(verbose_name = 'Cilindraje', max_length = 50, null = False, blank = False)
     fecha_SOAT =  models.DateField(verbose_name = 'fecha de vigencia soat', null = False, blank = False)
+    tarjeta_operacion =  models.DateField(verbose_name = 'fecha de vigencia tarjeta de operacion', null = False, blank = False)
     propietario = models.CharField(verbose_name = 'identificacion del propietario', null = False, max_length = 20, blank = False)
     estado = models.PositiveSmallIntegerField(verbose_name = 'Estado del vehiculo', choices = status_vehiculo, null = False, blank = False)
+
 
     def __str__(self):
         return self.placa

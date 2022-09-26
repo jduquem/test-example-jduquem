@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import curso, vehiculo
 from django.http import JsonResponse
@@ -46,15 +47,17 @@ def registrarvehiculo(request):
     capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
     cilindraje=request.POST['numcilindraje']
     fecha_SOAT=request.POST['numfecha_SOAT']
+    tarjeta_operacion=request.POST['numtarjeta_operacion']
     propietario=request.POST['numpropietario']
     estado=request.POST['numestado']
 
-    
-    vehiculos = vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+    vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
     return redirect('/')
 
 def edicionvehiculo(request, placa):
     vehiculos = vehiculo.objects.get(placa=placa)
+    vehiculos.fecha_SOAT = datetime.strptime(str(vehiculos.fecha_SOAT), '%Y-%m-%d').strftime('%Y-%m-%d')
+    vehiculos.tarjeta_operacion = datetime.strptime(str(vehiculos.tarjeta_operacion), '%Y-%m-%d').strftime('%Y-%m-%d')
     return render(request, 'edicionvehiculo.html', {'vehiculo': vehiculos})
 
 def editarvehiculo(request):
@@ -62,13 +65,15 @@ def editarvehiculo(request):
     capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
     cilindraje=request.POST['numcilindraje']
     fecha_SOAT=request.POST['numfecha_SOAT']
+    tarjeta_operacion=request.POST['numtarjeta_operacion']
     propietario=request.POST['numpropietario']
     estado=request.POST['numestado']
 
     vehiculos = vehiculo.objects.get(placa=placa)
     vehiculos.capacidad_de_pasajeros = capacidad_de_pasajeros
-    vehiculos.cilindrajes= cilindraje
+    vehiculos.cilindraje= cilindraje
     vehiculos.fecha_SOAT= fecha_SOAT
+    vehiculos.tarjeta_operacion=tarjeta_operacion
     vehiculos.propietario= propietario
     vehiculos.estado = estado
     vehiculos.save()
