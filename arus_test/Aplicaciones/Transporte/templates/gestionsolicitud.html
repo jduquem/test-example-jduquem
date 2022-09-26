@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de solicitudes{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <h2>Gestion de solicitud</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/registrarsolicitud/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtCodigo"  name="txtCodigo" class="form-control" placeholder="Código" minlength="6" maxlength="6" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtNombre"  name="txtNombre" class="form-control" placeholder="Nombre" minlength="6" maxlength="15   " autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="numCredito"  name="numCredito" class="form-control"  min="1" max="9" value="1" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-5">
+        <h1>Listado de solicitudes</h1>
+        <div class="table-responsive py-4">
+            <table class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Créditos</th>
+                        <th colspan="">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in queryset %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ c.codigo }}</td>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.creditos }}</td>
+                        <td><a href="edicionsolicitud/{{c.codigo}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="eliminarsolicitud/{{c.codigo}}" class="btn btn-danger">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
