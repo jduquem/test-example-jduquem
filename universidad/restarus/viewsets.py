@@ -7,3 +7,4 @@ from .serializers import vehiculoSerializers
 class VehiculosViewset(viewsets.ModelViewSet):
     queryset = vehiculo.objects.all()
     serializer_class = vehiculoSerializers
+

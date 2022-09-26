@@ -2,6 +2,8 @@ from rest_framework import routers
 
 from .viewsets import VehiculosViewset
 
-route = routers.SimpleRouter()
+route = routers.DefaultRouter()
 route.register('vehiculo', VehiculosViewset)
-urlpatterns = route.urls    
+urlpatterns = route.urls
+
+
