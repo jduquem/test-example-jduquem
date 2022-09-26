@@ -1,7 +1,6 @@
-from pyexpat import model
-from re import template
 from django.shortcuts import render, redirect
 from .models import curso, vehiculo
+from django.http import JsonResponse
 # Create your views here.
 
 def home(request):
@@ -79,3 +78,20 @@ def eliminarvehiculo(request, placa):
     vehiculos = vehiculo.objects.get(placa=placa)
     vehiculos.delete()
     return redirect('/')
+
+
+def jgetVehiculo(request, pk):
+    from djongo import models
+    try:
+        Vehiculos = vehiculo.objects.get(pk=ObjectId(pk))
+    except vehiculo.DoesNotExist:
+        return JsonResponse('')
+    
+    return JsonResponse({
+        'placa': Vehiculos.placa,
+        'capacidad_de_pasajeros': Vehiculos.capacidad_de_pasajeros,
+        'cilindraje': Vehiculos.cilindraje,
+        'fecha_SOAT': Vehiculos.fecha_SOAT,
+        'propietario': Vehiculos.propietario,
+        'estado':Vehiculos.estado
+    })

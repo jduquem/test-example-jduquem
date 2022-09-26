@@ -11,5 +11,6 @@ urlpatterns = [
     path('registrarvehiculo/', views.registrarvehiculo),
     path('edicionvehiculo/<placa>', views.edicionvehiculo),
     path('editarvehiculo/', views.editarvehiculo),
-    path('eliminarvehiculo/<placa>', views.eliminarvehiculo)
+    path('eliminarvehiculo/<placa>', views.eliminarvehiculo),
+    path('academico/j-get-vehiculo-by-id/<str:pk>', views.jgetVehiculo)
 ]
