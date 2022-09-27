@@ -10,43 +10,55 @@
             <div class="card-body">
                 <form action="/registrarsolicitud/" method="POST">{% csrf_token %}
                     <div class="form-group">
-                        <input type="text" id="txtCodigo"  name="txtCodigo" class="form-control" placeholder="Código" minlength="6" maxlength="6" autocomplete="off" required>
-                    </div>
+                        <input type="text" id="txtpunto_de_partida"  name="txtpunto_de_partida" class="form-control" placeholder="Punto de partida" autocomplete="off" required>
+                        </div>
+                        
+                        <div class="form-group">
+                        <input type="text" id="txtpunto_de_llegada"  name="txtpunto_de_llegada" class="form-control" placeholder="Punto de llegada" autocomplete="off" required>
+                        </div>
                     <div class="form-group">
-                        <input type="text" id="txtNombre"  name="txtNombre" class="form-control" placeholder="Nombre" minlength="6" maxlength="15   " autocomplete="off" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="numCredito"  name="numCredito" class="form-control"  min="1" max="9" value="1" autocomplete="off" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        <button type="submit" class="btn btn-success btn-block text-white">Crear solicitud</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-5">
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
         <h1>Listado de solicitudes</h1>
         <div class="table-responsive py-4">
             <table class="table table-striped ">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Créditos</th>
-                        <th colspan="">Opciones</th>
+                        <th>Punto de partida</th>
+                        <th>Punto de llegada</th>
+                        <th>Valor</th>
+                        <th>Fecha</th>
+                        <th>Estado_solicitud</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     {% for c in queryset %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ c.codigo }}</td>
-                        <td>{{ c.nombre }}</td>
-                        <td>{{ c.creditos }}</td>
-                        <td><a href="edicionsolicitud/{{c.codigo}}" class="btn btn-info">Editar</a></td>
-                        <td><a href="eliminarsolicitud/{{c.codigo}}" class="btn btn-danger">Eliminar</a></td>
+                        <td>{{ c.punto_de_partida }}</td>
+                        <td>{{ c.punto_de_llegada }}</td>
+                        <td>${{ c.valor }}</td>
+                        <td>{{ c.fecha | date:'d/m/Y' }}</td>
+                        <td> 
+                            {% if c.estado_solicitud == 0 %} 
+                                Cancelado
+                            {% elif c.estado_solicitud == 1 %}
+                                Pendiente
+                            {% elif c.estado_solicitud == 2 %} 
+                                Confirmado
+                            {% elif c.estado_solicitud == 3 %} 
+                                En transito
+                            {% elif c.estado_solicitud == 4 %} 
+                                Finalizado
+                            {%endif%}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

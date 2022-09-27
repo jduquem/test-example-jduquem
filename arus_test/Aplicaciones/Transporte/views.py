@@ -1,7 +1,27 @@
-from datetime import datetime
+from datetime import date, datetime
+from http.client import ImproperConnectionState
+from operator import imod
 from django.shortcuts import render, redirect
-from .models import vehiculo
+from .models import vehiculo, solicitud
 from django.http import JsonResponse
+from django.views import View
+
+class Vehiculo(View):
+    def get(self, request, *args, **kwargs):
+        queryset = vehiculo.objects.all()
+        return render(request, 'gestionvehiculo.html', {'queryset':queryset})
+
+    def post(self, request, *args, **kwargs):
+        placa=request.POST['txtplaca']
+        capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+        cilindraje=request.POST['numcilindraje']
+        fecha_SOAT=request.POST['numfecha_SOAT']
+        tarjeta_operacion=request.POST['numtarjeta_operacion']
+        propietario=request.POST['numpropietario']
+        estado=request.POST['numestado']
+        vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+        return redirect('vehiculos')
+
 
 def home(request):
     return render(request, 'blank.html')
@@ -53,18 +73,22 @@ def eliminarvehiculo(request, placa):
     return redirect('vehiculos')
 
 
-def jgetVehiculo(request, pk):
-    from djongo import models
-    try:
-        Vehiculos = vehiculo.objects.get(pk=ObjectId(pk))
-    except vehiculo.DoesNotExist:
-        return JsonResponse('')
-    
-    return JsonResponse({
-        'placa': Vehiculos.placa,
-        'capacidad_de_pasajeros': Vehiculos.capacidad_de_pasajeros,
-        'cilindraje': Vehiculos.cilindraje,
-        'fecha_SOAT': Vehiculos.fecha_SOAT,
-        'propietario': Vehiculos.propietario,
-        'estado':Vehiculos.estado
-    })
+def solicitudes(request):
+    queryset = solicitud.objects.all()
+    return render(request, 'gestionsolicitud.html', {'queryset':queryset})
+
+
+def registrarsolicitud(request):
+    punto_de_partida=request.POST['txtpunto_de_partida']
+    punto_de_llegada=request.POST['txtpunto_de_llegada']
+    valor= 0
+    fecha= datetime.now()
+    estado_solicitud= 1# request.POST['txtestado_solicitud']
+
+    solicitud.objects.create(punto_de_partida = punto_de_partida, punto_de_llegada=punto_de_llegada, valor=valor, fecha=fecha, estado_solicitud=estado_solicitud)
+    return redirect('solicitudes')
+
+def eliminarsolicitud(request, _id):
+    solicitudes = solicitud.objects.get(_id=_id)
+    solicitudes.delete()
+    return redirect('solicitudes')
