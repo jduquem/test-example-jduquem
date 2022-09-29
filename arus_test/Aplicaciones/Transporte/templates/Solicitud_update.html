@@ -8,7 +8,7 @@
         <h2>Edición de solicitud</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/editarsolicitud/" method="POST">{% csrf_token %}
+                <form action="/solicitud_update/" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <input type="text" id="txtCodigo" name="txtCodigo" value="{{solicitud.codigo}}" class="form-control" placeholder="Código"
                             minlength="6" maxlength="6" readonly required>

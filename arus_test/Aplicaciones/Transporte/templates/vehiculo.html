@@ -8,7 +8,7 @@
         <h2>Gestión de vehículo</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/registrarvehiculo/" method="POST">{% csrf_token %}
+                <form action="/vehiculo_add/" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <input type="text" id="txtplaca"  name="txtplaca" class="form-control" placeholder="Placa" minlength="6" maxlength="6" autocomplete="off" required>
                     </div>
@@ -73,8 +73,8 @@
                         <td>{%if c.estado == 0 %} Deshabilitado
                             {%elif c.estado == 1 %} Habilitado
                             {%endif%}</td>
-                        <td><a href="edicionvehiculo/{{c.placa}}" class="btn btn-info">Editar</a></td>
-                        <td><a href="eliminarvehiculo/{{c.placa}}" class="btn btn-danger">Eliminar</a></td>
+                        <td><a href="vehiculo_update/{{c.placa}}" class="btn btn-info">Editar</a></td>
+                        <td><a href="vehiculo_delete/{{c.placa}}" class="btn btn-danger">Eliminar</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

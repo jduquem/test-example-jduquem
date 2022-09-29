@@ -1,19 +1,19 @@
-from urllib.parse import urlparse
-from django.urls import path, re_path
-from .import views
+#from urllib.parse import urlparse
+from django.urls import path#, re_path
+from .views import Home
+from .views import Vehiculo, VehiculoAdd, VehiculoUpdate, VehiculoDelete
+from .views import Solicitud, SolicitudAdd, SolicitudUpdate, SolicitudDelete
 
 urlpatterns = [
-    path('', views.home),
-    re_path(r'^vehiculo/$', views.Vehiculo.as_view(), name='vehiculo'),
-    re_path(r'^UpdateVehiculo/$', views.UpdateVehiculo.as_view(), name='UpdateVehiculo'),
-    path('vehiculos', views.vehiculo, name='vehiculos'),
-    path('registrarvehiculo/', views.registrarvehiculo, name='registrarvehiculo'),
-    path('edicionvehiculo/<placa>', views.edicionvehiculo, name='edicionvehiculo'),
-    path('editarvehiculo/', views.editarvehiculo, name='editarvehiculo'),
-    path('eliminarvehiculo/<placa>', views.eliminarvehiculo, name='eliminarvehiculo'),
-    path('solicitudes', views.solicitudes, name='solicitudes'),
-    path('registrarsolicitud/', views.registrarsolicitud, name='registrarsolicitud'),
-    # path('edicionsolicitud/<id>', views.edicionsolicitud, name='edicionsolicitud'),
-    # path('editarsolicitud/', views.editarsolicitud, name='editarsolicitud'),
-    path('eliminarsolicitud/<id>', views.eliminarsolicitud, name='eliminarsolicitud'),
+    path('', Home.as_view(), name = 'home'),
+    #vehiculo
+    path('vehiculo/', Vehiculo.as_view(), name='vehiculo'),
+    path('vehiculo_add/', VehiculoAdd.as_view(), name='vehiculo_add'),
+    path('vehiculo_update/', VehiculoUpdate.as_view(), name='vehiculo_update'),
+    path('vehiculo_delete/', VehiculoDelete.as_view(), name='vehiculo_delete'),
+    #solicitud
+    path('solicitud/', Solicitud.as_view(), name='solicitud'),
+    path('solicitud_add/', SolicitudAdd.as_view(), name='solicitud_add'),
+    path('solicitud_update/', SolicitudUpdate.as_view(), name='solicitud_update'),
+    path('solicitud_delete/', SolicitudDelete.as_view(), name='solicitud_delete'),
 ]
