@@ -5,7 +5,8 @@ from .import views
 urlpatterns = [
     path('', views.home),
     re_path(r'^vehiculo/$', views.Vehiculo.as_view(), name='vehiculo'),
-    path('vehiculos', views.vehiculos, name='vehiculos'),
+    re_path(r'^UpdateVehiculo/$', views.UpdateVehiculo.as_view(), name='UpdateVehiculo'),
+    path('vehiculos', views.vehiculo, name='vehiculos'),
     path('registrarvehiculo/', views.registrarvehiculo, name='registrarvehiculo'),
     path('edicionvehiculo/<placa>', views.edicionvehiculo, name='edicionvehiculo'),
     path('editarvehiculo/', views.editarvehiculo, name='editarvehiculo'),

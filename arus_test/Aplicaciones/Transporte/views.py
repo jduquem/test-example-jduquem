@@ -1,15 +1,17 @@
 from datetime import date, datetime
 from http.client import ImproperConnectionState
 from operator import imod
+from django import views
 from django.shortcuts import render, redirect
 from .models import vehiculo, solicitud
-from django.http import JsonResponse
 from django.views import View
 
 class Vehiculo(View):
+    template_name = 'gestionvehiculo.html'
+
     def get(self, request, *args, **kwargs):
         queryset = vehiculo.objects.all()
-        return render(request, 'gestionvehiculo.html', {'queryset':queryset})
+        return render(request, self.template_name, {'queryset':queryset})
 
     def post(self, request, *args, **kwargs):
         placa=request.POST['txtplaca']
@@ -20,52 +22,80 @@ class Vehiculo(View):
         propietario=request.POST['numpropietario']
         estado=request.POST['numestado']
         vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-        return redirect('vehiculos')
+        return render(request, self.template_name)
 
 
 def home(request):
     return render(request, 'blank.html')
 
-def vehiculos(request):
-    queryset = vehiculo.objects.all()
-    return render(request, 'gestionvehiculo.html', {'queryset':queryset})
+# def vehiculos(request):
+#     queryset = vehiculo.objects.all()
+#     return render(request, 'gestionvehiculo.html', {'queryset':queryset})
 
-def registrarvehiculo(request):
-    placa=request.POST['txtplaca']
-    capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-    cilindraje=request.POST['numcilindraje']
-    fecha_SOAT=request.POST['numfecha_SOAT']
-    tarjeta_operacion=request.POST['numtarjeta_operacion']
-    propietario=request.POST['numpropietario']
-    estado=request.POST['numestado']
+# def registrarvehiculo(request):
+#     placa=request.POST['txtplaca']
+#     capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+#     cilindraje=request.POST['numcilindraje']
+#     fecha_SOAT=request.POST['numfecha_SOAT']
+#     tarjeta_operacion=request.POST['numtarjeta_operacion']
+#     propietario=request.POST['numpropietario']
+#     estado=request.POST['numestado']
 
-    vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-    return redirect('vehiculos')
+#     vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+#     return redirect('vehiculos')
 
-def edicionvehiculo(request, placa):
-    vehiculos = vehiculo.objects.get(placa=placa)
-    vehiculos.fecha_SOAT = datetime.strptime(str(vehiculos.fecha_SOAT), '%Y-%m-%d').strftime('%Y-%m-%d')
-    vehiculos.tarjeta_operacion = datetime.strptime(str(vehiculos.tarjeta_operacion), '%Y-%m-%d').strftime('%Y-%m-%d')
-    return render(request, 'edicionvehiculo.html', {'vehiculo': vehiculos})
 
-def editarvehiculo(request):
-    placa=request.POST['txtplaca']
-    capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-    cilindraje=request.POST['numcilindraje']
-    fecha_SOAT=request.POST['numfecha_SOAT']
-    tarjeta_operacion=request.POST['numtarjeta_operacion']
-    propietario=request.POST['numpropietario']
-    estado=request.POST['numestado']
+class UpdateVehiculo(View):
 
-    vehiculos = vehiculo.objects.get(placa=placa)
-    vehiculos.capacidad_de_pasajeros = capacidad_de_pasajeros
-    vehiculos.cilindraje= cilindraje
-    vehiculos.fecha_SOAT= fecha_SOAT
-    vehiculos.tarjeta_operacion=tarjeta_operacion
-    vehiculos.propietario= propietario
-    vehiculos.estado = estado
-    vehiculos.save()
-    return redirect('vehiculos')
+    def get(self, request, *args, **kwargs):
+        vehiculos = vehiculo.objects.get(placa=placa)
+        vehiculos.fecha_SOAT = datetime.strptime(str(vehiculos.fecha_SOAT), '%Y-%m-%d').strftime('%Y-%m-%d')
+        vehiculos.tarjeta_operacion = datetime.strptime(str(vehiculos.tarjeta_operacion), '%Y-%m-%d').strftime('%Y-%m-%d')
+        return render(request, 'edicionvehiculo.html', {'vehiculo': vehiculos})
+
+    def post(self, request, *args, **kwargs):
+        placa=request.POST['txtplaca']
+        capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+        cilindraje=request.POST['numcilindraje']
+        fecha_SOAT=request.POST['numfecha_SOAT']
+        tarjeta_operacion=request.POST['numtarjeta_operacion']
+        propietario=request.POST['numpropietario']
+        estado=request.POST['numestado']
+
+        vehiculos = vehiculo.objects.get(placa=placa)
+        vehiculos.capacidad_de_pasajeros = capacidad_de_pasajeros
+        vehiculos.cilindraje= cilindraje
+        vehiculos.fecha_SOAT= fecha_SOAT
+        vehiculos.tarjeta_operacion=tarjeta_operacion
+        vehiculos.propietario= propietario
+        vehiculos.estado = estado
+        vehiculos.save()
+        return redirect('vehiculos')
+
+# def edicionvehiculo(request, placa):
+#     vehiculos = vehiculo.objects.get(placa=placa)
+#     vehiculos.fecha_SOAT = datetime.strptime(str(vehiculos.fecha_SOAT), '%Y-%m-%d').strftime('%Y-%m-%d')
+#     vehiculos.tarjeta_operacion = datetime.strptime(str(vehiculos.tarjeta_operacion), '%Y-%m-%d').strftime('%Y-%m-%d')
+#     return render(request, 'edicionvehiculo.html', {'vehiculo': vehiculos})
+
+# def editarvehiculo(request):
+#     placa=request.POST['txtplaca']
+#     capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+#     cilindraje=request.POST['numcilindraje']
+#     fecha_SOAT=request.POST['numfecha_SOAT']
+#     tarjeta_operacion=request.POST['numtarjeta_operacion']
+#     propietario=request.POST['numpropietario']
+#     estado=request.POST['numestado']
+
+#     vehiculos = vehiculo.objects.get(placa=placa)
+#     vehiculos.capacidad_de_pasajeros = capacidad_de_pasajeros
+#     vehiculos.cilindraje= cilindraje
+#     vehiculos.fecha_SOAT= fecha_SOAT
+#     vehiculos.tarjeta_operacion=tarjeta_operacion
+#     vehiculos.propietario= propietario
+#     vehiculos.estado = estado
+#     vehiculos.save()
+#     return redirect('vehiculos')
 
 def eliminarvehiculo(request, placa):
     vehiculos = vehiculo.objects.get(placa=placa)
