@@ -8,7 +8,7 @@
         <h2>Gestión de vehículo</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/vehiculo_add/" method="POST">{% csrf_token %}
+                <form action="/vehiculo/" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <input type="text" id="txtplaca"  name="txtplaca" class="form-control" placeholder="Placa" minlength="6" maxlength="6" autocomplete="off" required>
                     </div>

@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from djongo import models
 
@@ -15,7 +14,20 @@ status_solicitud = (
         (3, 'En transito'),
         (4, 'Finalizado'),
     )
-    
+
+class propietario(models.Model):
+    _id = models.ObjectIdField(Primary_key = True)
+    identificacion  = models.CharField(verbose_name = 'Identificación', max_length = 50, null = False, blank = False)
+    nombre = models.CharField(verbose_name = 'Nombre', max_length = 50, null = False, blank = False)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        ordering = ['nombre']
+        verbose_name = 'Propietario'
+        verbose_name_plural = 'Propietarios'
+
 class vehiculo(models.Model):
     _id = models.ObjectIdField()
     placa = models.CharField(verbose_name = 'Placa', max_length = 6, null = False, blank = False)
@@ -23,10 +35,9 @@ class vehiculo(models.Model):
     cilindraje =  models.CharField(verbose_name = 'Cilindraje', max_length = 50, null = False, blank = False)
     fecha_SOAT =  models.DateField(verbose_name = 'fecha de vigencia soat', null = False, blank = False)
     tarjeta_operacion =  models.DateField(verbose_name = 'fecha de vigencia tarjeta de operacion', null = False, blank = False)
-    propietario = models.CharField(verbose_name = 'identificacion del propietario', null = False, max_length = 20, blank = False)
-    estado = models.PositiveSmallIntegerField(verbose_name = 'Estado del vehiculo', choices = status_vehiculo, null = False, blank = False)
-
-
+    estado = models.PositiveSmallIntegerField(verbose_name = 'Estado del vehiculo', choices = status_vehiculo, null = False, blank = False)    
+    propietario = models.ForeignKey(propietario, verbose_name = 'Nombre del propietario', null = False, max_length = 20, blank = False, on_delete = models.CASCADE)
+    
     def __str__(self):
         return self.placa
 

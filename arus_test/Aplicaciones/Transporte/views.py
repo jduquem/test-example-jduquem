@@ -1,4 +1,4 @@
-#from datetime import date, datetime
+from datetime import date, datetime
 #from http.client import ImproperConnectionState
 #from operator import imod
 #from django import views
@@ -112,19 +112,25 @@ class Vehiculo(View):
     template_name = 'vehiculo.html'
 
     def get(self, request, *args, **kwargs):
-        queryset = vehiculo.objects.all()
-        return render(request, self.template_name, {'queryset':queryset})
+        try:
+            queryset = vehiculo.objects.all()
+            return render(request, self.template_name, {'queryset':queryset})
+        except:
+            return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
-        placa=request.POST['txtplaca']
-        capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-        cilindraje=request.POST['numcilindraje']
-        fecha_SOAT=request.POST['numfecha_SOAT']
-        tarjeta_operacion=request.POST['numtarjeta_operacion']
-        propietario=request.POST['numpropietario']
-        estado=request.POST['numestado']
-        vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-        return render(request, self.template_name)
+        try:
+            placa=request.POST['txtplaca']
+            capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+            cilindraje=request.POST['numcilindraje']
+            fecha_SOAT=request.POST['numfecha_SOAT']
+            tarjeta_operacion=request.POST['numtarjeta_operacion']
+            propietario=request.POST['numpropietario']
+            estado=request.POST['numestado']
+            vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+            return render(request, self.template_name)
+        except:
+            return render(request, self.template_name)
 
 class VehiculoAdd(View):
     template_name = 'vehiculo_add.html'
@@ -202,19 +208,24 @@ class Solicitud(View):
     template_name = 'solicitud.html'
 
     def get(self, request, *args, **kwargs):
-        queryset = solicitud.objects.all()
-        return render(request, self.template_name, {'queryset':queryset})
+        try:
+            queryset = solicitud.objects.all()
+            return render(request, self.template_name, {'queryset':queryset})
+        except:
+            return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
-        placa=request.POST['txtplaca']
-        capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-        cilindraje=request.POST['numcilindraje']
-        fecha_SOAT=request.POST['numfecha_SOAT']
-        tarjeta_operacion=request.POST['numtarjeta_operacion']
-        propietario=request.POST['numpropietario']
-        estado=request.POST['numestado']
-        solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-        return render(request, self.template_name)
+        try:
+            punto_de_partida=request.POST['txtpunto_de_partida']
+            punto_de_llegada=request.POST['txtpunto_de_llegada']
+            valor= 0
+            fecha= datetime.now()
+            estado_solicitud= 1# request.POST['txtestado_solicitud']
+            solicitud.objects.create(punto_de_partida = punto_de_partida, punto_de_llegada=punto_de_llegada, valor=valor, fecha=fecha, estado_solicitud=estado_solicitud)
+            return render(request, self.template_name, {'result':'ok'})
+        except:
+            return render(request, self.template_name)
+
 
 class SolicitudAdd(View):
     template_name = 'Solicitud_add.html'
@@ -228,62 +239,60 @@ class SolicitudAdd(View):
 
     def post(self, request, *args, **kwargs):
         try:
-            placa=request.POST['txtplaca']
-            capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-            cilindraje=request.POST['numcilindraje']
-            fecha_SOAT=request.POST['numfecha_SOAT']
-            tarjeta_operacion=request.POST['numtarjeta_operacion']
-            propietario=request.POST['numpropietario']
-            estado=request.POST['numestado']
-            solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+            punto_de_partida=request.POST['txtpunto_de_partida']
+            punto_de_llegada=request.POST['txtpunto_de_llegada']
+            valor= 0
+            fecha= datetime.now()
+            estado_solicitud= 1# request.POST['txtestado_solicitud']
+            solicitud.objects.create(punto_de_partida = punto_de_partida, punto_de_llegada=punto_de_llegada, valor=valor, fecha=fecha, estado_solicitud=estado_solicitud)
             return render(request, self.template_name, {'result':'ok'})
         except:
             return render(request, self.template_name)
 
-class SolicitudUpdate(View):
-    template_name = 'Solicitud_update.html'
+# class SolicitudUpdate(View):
+#     template_name = 'Solicitud_update.html'
 
-    def get(self, request, *args, **kwargs):
-        try:
-            queryset = solicitud.objects.all()
-            return render(request, self.template_name, {'queryset':queryset})
-        except:
-            return render(request, self.template_name)
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             queryset = solicitud.objects.all()
+#             return render(request, self.template_name, {'queryset':queryset})
+#         except:
+#             return render(request, self.template_name)
 
-    def post(self, request, *args, **kwargs):
-        try:
-            placa=request.POST['txtplaca']
-            capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-            cilindraje=request.POST['numcilindraje']
-            fecha_SOAT=request.POST['numfecha_SOAT']
-            tarjeta_operacion=request.POST['numtarjeta_operacion']
-            propietario=request.POST['numpropietario']
-            estado=request.POST['numestado']
-            solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-            return render(request, self.template_name, {'result':'ok'})
-        except:
-            return render(request, self.template_name)
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             placa=request.POST['txtplaca']
+#             capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+#             cilindraje=request.POST['numcilindraje']
+#             fecha_SOAT=request.POST['numfecha_SOAT']
+#             tarjeta_operacion=request.POST['numtarjeta_operacion']
+#             propietario=request.POST['numpropietario']
+#             estado=request.POST['numestado']
+#             solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+#             return render(request, self.template_name, {'result':'ok'})
+#         except:
+#             return render(request, self.template_name)
 
-class SolicitudDelete(View):
-    template_name = 'solicitud_delete.html'
+# class SolicitudDelete(View):
+#     template_name = 'solicitud_delete.html'
 
-    def get(self, request, *args, **kwargs):
-        try:
-            queryset = solicitud.objects.all()
-            return render(request, self.template_name, {'queryset':queryset})
-        except:
-            return render(request, self.template_name)
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             queryset = solicitud.objects.all()
+#             return render(request, self.template_name, {'queryset':queryset})
+#         except:
+#             return render(request, self.template_name)
 
-    def post(self, request, *args, **kwargs):
-        try:
-            placa=request.POST['txtplaca']
-            capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
-            cilindraje=request.POST['numcilindraje']
-            fecha_SOAT=request.POST['numfecha_SOAT']
-            tarjeta_operacion=request.POST['numtarjeta_operacion']
-            propietario=request.POST['numpropietario']
-            estado=request.POST['numestado']
-            solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-            return render(request, self.template_name, {'result':'ok'})
-        except:
-            return render(request, self.template_name)
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             placa=request.POST['txtplaca']
+#             capacidad_de_pasajeros=request.POST['txtcapacidad_de_pasajeros']
+#             cilindraje=request.POST['numcilindraje']
+#             fecha_SOAT=request.POST['numfecha_SOAT']
+#             tarjeta_operacion=request.POST['numtarjeta_operacion']
+#             propietario=request.POST['numpropietario']
+#             estado=request.POST['numestado']
+#             solicitud.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
+#             return render(request, self.template_name, {'result':'ok'})
+#         except:
+#             return render(request, self.template_name)
