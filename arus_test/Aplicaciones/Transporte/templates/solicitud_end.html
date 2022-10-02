@@ -17,7 +17,6 @@
                         <th>Kilometros</th>
                         <th>Fecha</th>
                         <th>Estado_solicitud</th>
-                        <th colspan="">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +42,6 @@
                                 Finalizado
                             {%endif%}
                         </td>
-                        <td><a href="#" class="btn btn-info">Tomar Solicitud</a></td>
-                        <td><a href="#" class="btn btn-danger">Cancelar Solicitud</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -56,10 +53,7 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <a href="{% url 'solicitud_add' %}" class="btn btn-info">crear solicitud</a> 
-        <a href="{% url 'solicitud_transit' %}" class="btn btn-warning">Solicitudes en transito</a> 
-        <a href="{% url 'solicitud_end' %}" class="btn btn-success">Solicitudes Finalizadas</a> 
-        <td><a href="{% url 'solicitud_cancel' %}" class="btn btn-danger">Solicitudes canceladas</a></td>
+        <a href="{% url 'solicitud' %}" class="btn btn-info">Solicitudes Pendientes</a> 
         </div>
     </div>
 </div>

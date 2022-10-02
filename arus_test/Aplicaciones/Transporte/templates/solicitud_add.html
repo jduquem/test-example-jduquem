@@ -1,0 +1,41 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestión de solicitud{% endblock %}
+
+{% block body %}
+<div class="row offset-md-1">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+        <h2>Gestion de solicitud</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="{% url 'solicitud_add' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtpunto_de_partida"  name="txtpunto_de_partida" class="form-control" placeholder="Punto de partida" autocomplete="off" required>
+                        </div>
+                        
+                        <div class="form-group">
+                        <input type="text" id="txtpunto_de_llegada"  name="txtpunto_de_llegada" class="form-control" placeholder="Punto de llegada" autocomplete="off" required>
+                        </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Crear solicitud</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <iframe
+                width="600"
+                height="450"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0CdWrNiCOjzJ4Ogq6c1VzK1KqXkez3ko
+                &q=Space+Needle,Seattle+WA">
+            </iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}
