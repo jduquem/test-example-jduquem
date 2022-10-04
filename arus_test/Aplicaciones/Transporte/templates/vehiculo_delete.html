@@ -3,6 +3,7 @@
 {% block title %} Principal{% endblock %}
 
 {% block body %}
+
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <h2>Edición de vehículo</h2>
@@ -10,7 +11,7 @@
             <div class="card-body">
                 <form action="{% url 'vehiculo_delete' %}" method="POST">{% csrf_token %}
                     <div class="form-group">
-                        <input type="text" id="txtplaca" name="txtplaca" value="{{vehiculo.placa}}" class="form-control" placeholder="placa"
+                        <input type="text" id="txtplaca" name="txtplaca" value="{{vehiculo}}" class="form-control" placeholder="placa"
                             minlength="6" maxlength="6" readonly required>
                     </div>
                     <div class="alert alert-danger" role="alert">

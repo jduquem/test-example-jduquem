@@ -1,5 +1,4 @@
 {% extends "./base.html" %}
-
 {% block title %} Gestión de vehículo{% endblock %}
 
 {% block body %}
@@ -43,14 +42,7 @@
                 </tbody>
             </table>
         </div>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success" role="alert" {{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        <a href="{% url 'vehiculo_add' %}" class="btn btn-info">crear vehiculo</a> 
+        <a href="{% url 'vehiculo_add' %}" class="btn btn-info">Crear</a> 
     </div>
 </div>
 {% endblock %}
