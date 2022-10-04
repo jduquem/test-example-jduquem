@@ -19,7 +19,7 @@ class RegisterUser(View):
             messages.success(request, 'Usuario {} creado con exito.'.format(username))
             return redirect('home')
         else:
-            print('error de registro')
+            messages.success(request, 'Error de registro')
         return render(request, self.template_name, {'form': form})
 
 
@@ -30,7 +30,6 @@ class LoginUser(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        print('login')
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -43,5 +42,5 @@ class LoginUser(View):
             else:
                 messages.success(request, 'Ocurrió un error')
         else:
-            print('error de ingreso')
+            messages.success(request, 'Error de ingreso')
         return render(request, self.template_name, {'form': form})
