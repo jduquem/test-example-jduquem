@@ -4,6 +4,7 @@ from django.contrib import messages
 #from http.client import ImproperConnectionState
 #from operator import imod
 #from django import views
+from django.contrib.auth import login
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.urls import reverse
 from .models import vehiculo, solicitud
@@ -150,7 +151,7 @@ class VehiculoAdd(View):
                     propietario=request.POST['numpropietario']
                     estado=request.POST['numestado']
                     vehiculo.objects.create(placa = placa, capacidad_de_pasajeros=capacidad_de_pasajeros, cilindraje=cilindraje, tarjeta_operacion=tarjeta_operacion, fecha_SOAT=fecha_SOAT, propietario=propietario, estado=estado)
-                    messages.success(request, 'Se ha creado el vehículo con placa {}'.format(placa))
+                    #messages.success(request, 'Se ha creado el vehículo con placa {}'.format(placa))
                     return HttpResponseRedirect(reverse('vehiculo'))
                 except:
                     return render(request, self.template_name)
@@ -259,7 +260,7 @@ class SolicitudAdd(View):
             fecha= datetime.now()
             estado_solicitud= 3# request.POST['txtestado_solicitud']
             solicitud.objects.create(punto_de_partida = punto_de_partida, punto_de_llegada=punto_de_llegada, valor=valor, fecha=fecha, estado_solicitud=estado_solicitud, km = km)
-            messages.success(request, 'La solicitud fue creada con exito')
+            #messages.success(request, 'La solicitud fue creada con exito')
             return HttpResponseRedirect(reverse('solicitud'))
         except:
             return render(request, self.template_name)
@@ -338,16 +339,21 @@ class SolicitudAdd(View):
 
 
 class RegisterUser(View):
-    template_name = 'RegisterUser.html'    
+    template_name = 'signup.html'    
     def get(self, request, *args, **kwargs):
         form = UserRegisterForm(request.GET)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = UserRegisterForm(request.POST)
+        print('registro')
         if form.is_valid():
-            form.save()
+
+            user = form.save()
+            login(request, user)
             username = form.cleaned_data['username']
-            messages.success(request, 'Usuario {} creado con exito.'.format(username))
+            #messages.success(request, 'Usuario {} creado con exito.'.format(username))
             return redirect('vehiculo')
+        else:
+            print('error de registro')
         return render(request, self.template_name, {'form': form})

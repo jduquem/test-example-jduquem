@@ -16,10 +16,11 @@ class RegisterUser(View):
             user = form.save()
             login(request, user)
             username = form.cleaned_data['username']
-            messages.success(request, 'Usuario {} creado con exito.'.format(username))
+            #messages.success(request, 'Usuario {} creado con exito.'.format(username))
             return redirect('home')
         else:
-            messages.success(request, 'Error de registro')
+            #messages.success(request, 'Error de registro')
+            return render(request, self.template_name, {'form': form})
         return render(request, self.template_name, {'form': form})
 
 
@@ -37,10 +38,12 @@ class LoginUser(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, 'Bienvenido {}'.format(username))
+                #messages.success(request, 'Bienvenido {}'.format(username))
                 return redirect('/')
             else:
-                messages.success(request, 'Ocurrió un error')
+                #messages.success(request, 'Ocurrió un error')
+                return redirect('/')
         else:
-            messages.success(request, 'Error de ingreso')
+            #messages.success(request, 'Error de ingreso')
+            return redirect('/')
         return render(request, self.template_name, {'form': form})

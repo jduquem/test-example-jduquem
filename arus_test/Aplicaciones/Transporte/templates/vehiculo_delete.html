@@ -12,10 +12,10 @@
                 <form action="{% url 'vehiculo_delete' %}" method="POST">{% csrf_token %}
                     <div class="form-group">
                         <input type="text" id="txtplaca" name="txtplaca" value="{{vehiculo}}" class="form-control" placeholder="placa"
-                            minlength="6" maxlength="6" readonly required>
+                            minlength="6" maxlength="6" hidden>
                     </div>
                     <div class="alert alert-danger" role="alert">
-                        Esta seguro que desea eliminar el vehiculo
+                        Esta seguro que desea eliminar el vehiculo {{vehiculo}}
                       </div>
                     <div class="form-group">
                         <button type="submit" type="button" class="btn btn-danger" >Aceptar</button>

@@ -23,10 +23,9 @@ class VehiculoAdd(View):
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
-        import pdb;pdb.set_trace()
         queryset = vehiculo.objects.filter(placa=request.POST['txtplaca'].upper())
-        if queryset is not None:
-            messages.warning(request, 'El vehiculo con placa {} ya se encuentra creado'.format(request.POST['txtplaca']))
+        if len(queryset) >= 1:
+            #messages.warning(request, 'El vehiculo con placa {} ya se encuentra creado'.format(request.POST['txtplaca']))
             return HttpResponseRedirect(reverse('vehiculo'))
         try:
             placa=request.POST['txtplaca'].upper()
@@ -47,11 +46,20 @@ class VehiculoUpdate(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            queryset = vehiculo.objects.all()
-            return render(request, self.template_name, {'queryset':queryset})
+            queryset = vehiculo.objects.get(placa=kwargs['placa'])
+            return render(request, self.template_name,
+                {
+                    'vehicle':queryset,
+                    'placa':kwargs['placa'], 
+                    'capacidad_de_pasajeros':queryset.capacidad_de_pasajeros,
+                    'cilindraje':queryset.cilindraje,
+                    'fecha_SOAT':datetime.strptime(str(queryset.fecha_SOAT), '%Y-%m-%d').strftime('%Y-%m-%d'),
+                    'tarjeta_operacion':datetime.strptime(str(queryset.tarjeta_operacion), '%Y-%m-%d').strftime('%Y-%m-%d'),
+                    'propietario':queryset.propietario,
+                    'estado':queryset.estado
+                })
         except:
-            return render(request, self.template_name)
-
+            return HttpResponseRedirect(reverse('vehiculo'))
     def post(self, request, *args, **kwargs):
         try:
             placa=request.POST['txtplaca']
@@ -62,7 +70,7 @@ class VehiculoUpdate(View):
             propietario=request.POST['numpropietario']
             estado=request.POST['numestado']
 
-            vehiculos = vehiculo.objects.get(placa=kwargs['placa'])
+            vehiculos = vehiculo.objects.get(placa=request.POST['txtplaca'])
             vehiculos.capacidad_de_pasajeros = capacidad_de_pasajeros
             vehiculos.cilindraje= cilindraje
             vehiculos.fecha_SOAT= fecha_SOAT
@@ -82,12 +90,12 @@ class VehiculoDelete(View):
             queryset = vehiculo.objects.get(placa=kwargs['placa'])
             return render(request, self.template_name, {'vehiculo':kwargs['placa']})
         except:
-            return redirect('vehicle')
+            return HttpResponseRedirect(reverse('vehiculo'))
 
     def post(self, request, *args, **kwargs):
         try:
             vehiculos = vehiculo.objects.get(placa=request.POST['txtplaca'])
             vehiculos.delete()
-            return redirect('vehicle')
+            return HttpResponseRedirect(reverse('vehiculo'))
         except:
-            return render(request, self.template_name)
+            return HttpResponseRedirect(reverse('vehiculo'))

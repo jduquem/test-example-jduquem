@@ -7,7 +7,7 @@ from .views.vehicle import Vehiculo, VehiculoAdd, VehiculoUpdate, VehiculoDelete
 # from .views import Solicitud, SolicitudAdd, SolicitudEnd, SolicitudCancel, SolicitudTransit
 
 urlpatterns = [
-#user
+    #user
     path('', Home.as_view(), name = 'home'),
     path('register', RegisterUser.as_view(), name='register'),
     path('login/', LoginUser.as_view(), name='login'),
@@ -16,8 +16,8 @@ urlpatterns = [
     #vehiculo
     path('vehiculo/', Vehiculo.as_view(), name='vehiculo'),
     path('vehiculo_add/', VehiculoAdd.as_view(), name='vehiculo_add'),
-    path('vehiculo_update/<placa>', VehiculoUpdate.as_view(), name='vehiculo_update'),
-
+    path('vehiculo_update/', VehiculoUpdate.as_view(), name='vehiculo_update'),
+    path('vehiculo_update/<str:placa>', VehiculoUpdate.as_view(), name='vehiculo_update'),
     path('vehiculo_delete/', VehiculoDelete.as_view(), name='vehiculo_delete'),
     path('vehiculo_delete/<str:placa>', VehiculoDelete.as_view(), name='vehiculo_delete'),
 
